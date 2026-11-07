@@ -60,4 +60,4 @@ Versionscode wird aus dem Tag berechnet (`v1.2.3` → 10203).
 ## Quellen
 
 - Wasser: „mountain stream" von **piermic** auf freesound.org (Sound #376192),
-  zugeschnitten, gefiltert und lautstärkeangepasst.
+  Lizenz **CC0** (gemeinfrei); gefiltert und lautstärkeangepasst.
