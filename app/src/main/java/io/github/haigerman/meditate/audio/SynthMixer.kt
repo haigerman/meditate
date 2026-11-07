@@ -5,6 +5,7 @@ import io.github.haigerman.meditate.audio.sounds.Campfire
 import io.github.haigerman.meditate.audio.sounds.Forest
 import io.github.haigerman.meditate.audio.sounds.SingingBowls
 import io.github.haigerman.meditate.audio.sounds.SoundGenerator
+import io.github.haigerman.meditate.audio.sounds.Spheres
 import io.github.haigerman.meditate.audio.sounds.Wind
 import io.github.haigerman.meditate.audio.sounds.WindChimes
 import kotlin.math.tanh
@@ -17,7 +18,8 @@ enum class SynthSound(val calibration: Float) {
     WIND(0.14f),
     WIND_CHIMES(0.9f),
     SINGING_BOWLS(2.0f),
-    FOREST(1.3f);
+    FOREST(1.3f),
+    SPHERES(0.4f);
 
     fun create(sampleRate: Int): SoundGenerator = when (this) {
         CAMPFIRE -> Campfire(sampleRate)
@@ -26,6 +28,7 @@ enum class SynthSound(val calibration: Float) {
         WIND_CHIMES -> WindChimes(sampleRate)
         SINGING_BOWLS -> SingingBowls(sampleRate)
         FOREST -> Forest(sampleRate)
+        SPHERES -> Spheres(sampleRate)
     }
 }
 

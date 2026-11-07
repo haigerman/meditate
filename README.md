@@ -10,9 +10,10 @@ Android-App zur Meditation: mischt beruhigende Klänge, die endlos laufen.
 | 🎐 Windspiel | 6 pentatonisch gestimmte Röhren (Modalsynthese) |
 | 🔔 Klangschalen | 3 Schalen mit schwebenden Obertönen, Anschlag alle 15–30 s |
 | 🌲 Wald | Blätterrauschen + 6 Vögel verschiedener "Arten" |
+| ✨ Sphären | warme Akkordflächen, die langsam ineinander fließen, Schimmertöne, großer Hall |
 | 🎵 eigene MP3s | jede Datei in `app/src/main/assets/tracks/` |
 
-Die sechs eingebauten Klänge werden **live berechnet** – es gibt also keine hörbare
+Die sieben eingebauten Klänge werden **live berechnet** – es gibt also keine hörbare
 Schleife, nichts wiederholt sich exakt, und die APK bleibt klein. Eigene MP3s werden
 lückenlos geloopt.
 

@@ -112,6 +112,7 @@ object SoundCatalog {
             SoundItem("chimes", "Windspiel", "Pentatonische Röhren", "🎐", SoundSource.Synth(SynthSound.WIND_CHIMES)),
             SoundItem("bowls", "Klangschalen", "Tiefe, schwebende Töne", "🔔", SoundSource.Synth(SynthSound.SINGING_BOWLS)),
             SoundItem("forest", "Wald", "Vogelzwitschern & Blätter", "🌲", SoundSource.Synth(SynthSound.FOREST)),
+            SoundItem("spheres", "Sphären", "Schwebende Klangflächen", "✨", SoundSource.Synth(SynthSound.SPHERES)),
         )
         val tracks = (context.assets.list("tracks") ?: emptyArray())
             .filter { it.endsWith(".mp3", ignoreCase = true) }

@@ -228,3 +228,78 @@ class Resonator(sampleRate: Int, freq: Double, t60Seconds: Double) {
 }
 
 fun lerp(a: Float, b: Float, t: Float): Float = a + (b - a) * t
+
+/** Wellenformtabelle mit sanft abfallenden Obertönen – warmer, weicher Grundklang. */
+object WarmWave {
+    const val SIZE = 2048
+    val table = FloatArray(SIZE + 1).also { t ->
+        var max = 0f
+        for (i in 0..SIZE) {
+            val x = i.toDouble() / SIZE
+            var v = 0.0
+            for (n in 1..6) v += sin(TWO_PI * n * x) / Math.pow(n.toDouble(), 1.7)
+            t[i] = v.toFloat()
+            max = maxOf(max, kotlin.math.abs(t[i]))
+        }
+        for (i in t.indices) t[i] /= max
+    }
+
+    /** phase in [0, 1) */
+    fun at(phase: Double): Float {
+        val p = phase * SIZE
+        val i = p.toInt()
+        val f = (p - i).toFloat()
+        return table[i] + (table[i + 1] - table[i]) * f
+    }
+}
+
+/** Einfacher Stereo-Hall nach dem Freeverb-Prinzip (Kammfilter + Allpässe). */
+class Reverb(sampleRate: Int, private val roomSize: Float = 0.9f, private val damping: Float = 0.35f) {
+    private val scale = sampleRate / 44100.0
+
+    private inner class Comb(len: Int) {
+        val buf = FloatArray((len * scale).toInt().coerceAtLeast(1))
+        var idx = 0
+        var store = 0f
+        fun process(x: Float): Float {
+            val out = buf[idx]
+            store = out * (1 - damping) + store * damping
+            buf[idx] = x + store * roomSize
+            if (++idx >= buf.size) idx = 0
+            return out
+        }
+    }
+
+    private inner class AllPass(len: Int) {
+        val buf = FloatArray((len * scale).toInt().coerceAtLeast(1))
+        var idx = 0
+        fun process(x: Float): Float {
+            val b = buf[idx]
+            buf[idx] = x + b * 0.5f
+            if (++idx >= buf.size) idx = 0
+            return b - x
+        }
+    }
+
+    private val combL = intArrayOf(1116, 1188, 1277, 1356, 1422, 1491).map { Comb(it) }
+    private val combR = intArrayOf(1139, 1211, 1300, 1379, 1445, 1514).map { Comb(it) }
+    private val apL = intArrayOf(556, 441, 341).map { AllPass(it) }
+    private val apR = intArrayOf(579, 464, 364).map { AllPass(it) }
+
+    var outL = 0f
+        private set
+    var outR = 0f
+        private set
+
+    fun process(inL: Float, inR: Float) {
+        val x = (inL + inR) * 0.012f
+        var l = 0f
+        var r = 0f
+        for (c in combL) l += c.process(x)
+        for (c in combR) r += c.process(x)
+        for (a in apL) l = a.process(l)
+        for (a in apR) r = a.process(r)
+        outL = l
+        outR = r
+    }
+}
