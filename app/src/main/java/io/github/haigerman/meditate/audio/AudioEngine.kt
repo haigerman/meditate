@@ -8,8 +8,8 @@ import android.os.Process
 /**
  * Spielt den [SynthMixer] kontinuierlich über einen AudioTrack ab (eigener Audio-Thread).
  */
-class AudioEngine(val sampleRate: Int = 48000) {
-    val mixer = SynthMixer(sampleRate)
+class AudioEngine(val sampleRate: Int, samples: SampleProvider) {
+    val mixer = SynthMixer(sampleRate, samples)
 
     @Volatile
     private var running = false

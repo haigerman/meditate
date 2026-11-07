@@ -23,6 +23,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import io.github.haigerman.meditate.audio.AssetSampleProvider
 import io.github.haigerman.meditate.audio.AudioEngine
 import io.github.haigerman.meditate.data.MixRepository
 import io.github.haigerman.meditate.data.MixState
@@ -54,7 +55,8 @@ class PlaybackService : LifecycleService() {
         }
     }
 
-    private val engine = AudioEngine()
+    private val samples by lazy { AssetSampleProvider(this, 48000) }
+    private val engine by lazy { AudioEngine(48000, samples) }
     private val players = mutableMapOf<String, ExoPlayer>()
     private var trackMaster = 0f
     private var playing = false
@@ -107,6 +109,7 @@ class PlaybackService : LifecycleService() {
         MixRepository.init(this)
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         createChannel()
+        samples.get("brook") // Aufnahme schon mal im Hintergrund laden
         ContextCompat.registerReceiver(
             this, noisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY),
             ContextCompat.RECEIVER_NOT_EXPORTED,

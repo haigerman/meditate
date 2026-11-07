@@ -1,5 +1,7 @@
 package io.github.haigerman.meditate
 
+import io.github.haigerman.meditate.audio.Pcm
+import io.github.haigerman.meditate.audio.SampleProvider
 import io.github.haigerman.meditate.audio.SynthMixer
 import io.github.haigerman.meditate.audio.SynthSound
 import org.junit.Assert.assertTrue
@@ -17,10 +19,30 @@ import kotlin.math.sqrt
  */
 class SoundRenderTest {
     private val sr = 44100
-    private val seconds = (System.getProperty("previewSeconds") ?: "20").toInt()
+    private val seconds = (System.getProperty("previewSeconds") ?: "60").toInt()
+
+    /** Dekodiert Aufnahmen für den Test mit ffmpeg (falls installiert). */
+    private val samples = SampleProvider { name ->
+        try {
+            val proc = ProcessBuilder(
+                "ffmpeg", "-loglevel", "error", "-i", "src/main/assets/sounds/$name.mp3",
+                "-f", "s16le", "-ac", "2", "-ar", "$sr", "-",
+            ).start()
+            val bytes = proc.inputStream.readBytes()
+            proc.waitFor()
+            val shorts = ShortArray(bytes.size / 2) { i ->
+                ((bytes[i * 2].toInt() and 255) or (bytes[i * 2 + 1].toInt() shl 8)).toShort()
+            }
+            if (shorts.isEmpty()) null else Pcm(shorts, sr)
+        } catch (e: java.io.IOException) {
+            null
+        }
+    }
+
+    private val hasFfmpeg = samples.get("brook") != null
 
     private fun render(volumes: Map<SynthSound, Float>): FloatArray {
-        val mixer = SynthMixer(sr)
+        val mixer = SynthMixer(sr, samples)
         mixer.setMasterImmediate(1f)
         volumes.forEach { (s, v) -> mixer.setVolume(s, v) }
         mixer.rampSeconds = 0.01f
@@ -67,6 +89,10 @@ class SoundRenderTest {
     fun renderEachSound() {
         val dir = File("build/sound-previews")
         for (s in SynthSound.entries) {
+            if (s == SynthSound.BROOK && !hasFfmpeg) {
+                println("BROOK übersprungen (ffmpeg nicht installiert)")
+                continue
+            }
             val buf = render(mapOf(s to 1f))
             val (rms, _) = stats(s.name, buf)
             assertTrue("${s.name} ist stumm", rms > 0.001)

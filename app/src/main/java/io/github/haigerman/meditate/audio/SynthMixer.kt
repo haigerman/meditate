@@ -1,8 +1,8 @@
 package io.github.haigerman.meditate.audio
 
-import io.github.haigerman.meditate.audio.sounds.Brook
 import io.github.haigerman.meditate.audio.sounds.Campfire
 import io.github.haigerman.meditate.audio.sounds.Forest
+import io.github.haigerman.meditate.audio.sounds.SampleTexture
 import io.github.haigerman.meditate.audio.sounds.SingingBowls
 import io.github.haigerman.meditate.audio.sounds.SoundGenerator
 import io.github.haigerman.meditate.audio.sounds.Spheres
@@ -10,20 +10,20 @@ import io.github.haigerman.meditate.audio.sounds.Wind
 import io.github.haigerman.meditate.audio.sounds.WindChimes
 import kotlin.math.tanh
 
-/** Die eingebauten, synthetisch erzeugten Klänge. */
+/** Die eingebauten Klänge – live synthetisiert, bzw. (Wasser) eine endlos variierte Aufnahme. */
 /** [calibration] gleicht die Grundlautstärken einander an (gemessen im SoundRenderTest). */
 enum class SynthSound(val calibration: Float) {
     CAMPFIRE(0.38f),
-    BROOK(0.64f),
+    BROOK(1.1f),
     WIND(0.14f),
     WIND_CHIMES(0.9f),
     SINGING_BOWLS(2.0f),
     FOREST(1.3f),
     SPHERES(0.4f);
 
-    fun create(sampleRate: Int): SoundGenerator = when (this) {
+    fun create(sampleRate: Int, samples: SampleProvider): SoundGenerator = when (this) {
         CAMPFIRE -> Campfire(sampleRate)
-        BROOK -> Brook(sampleRate)
+        BROOK -> SampleTexture(sampleRate, samples, "brook")
         WIND -> Wind(sampleRate)
         WIND_CHIMES -> WindChimes(sampleRate)
         SINGING_BOWLS -> SingingBowls(sampleRate)
@@ -37,7 +37,11 @@ enum class SynthSound(val calibration: Float) {
  * Ein-/Ausschalten) und einem sanften Limiter am Ende. Rein in Kotlin, ohne Android –
  * so kann es auch in Unit-Tests offline gerendert werden.
  */
-class SynthMixer(private val sampleRate: Int, private val blockSize: Int = 1024) {
+class SynthMixer(
+    private val sampleRate: Int,
+    private val samples: SampleProvider = SampleProvider.NONE,
+    private val blockSize: Int = 1024,
+) {
     private val sounds = SynthSound.entries
     private val generators = arrayOfNulls<SoundGenerator>(sounds.size)
     private val target = FloatArray(sounds.size)
@@ -87,7 +91,7 @@ class SynthMixer(private val sampleRate: Int, private val blockSize: Int = 1024)
             val to = approach(from, target[s], step)
             current[s] = to
             if (from <= 0f && to <= 0f) continue
-            val gen = generators[s] ?: sounds[s].create(sampleRate).also { generators[s] = it }
+            val gen = generators[s] ?: sounds[s].create(sampleRate, samples).also { generators[s] = it }
             gen.render(tmpL, tmpR, n)
             val cal = sounds[s].calibration
             for (i in 0 until n) {

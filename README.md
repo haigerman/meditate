@@ -5,7 +5,7 @@ Android-App zur Meditation: mischt beruhigende Klänge, die endlos laufen.
 | Klang | Wie er entsteht |
 |---|---|
 | 🔥 Lagerfeuer | Fauchen + zufälliges Knistern/Knacken |
-| 💧 Wasser (Gebirgsbach) | gleitende Resonanzen über Rauschen – ruhiges Plätschern und Gluckern |
+| 💧 Wasser (Gebirgsbach) | echte Aufnahme, die alle 10–25 s weich an eine zufällige Stelle überblendet – keine hörbare Schleife |
 | 🌬️ Wind | Rauschen durch wandernde Filter, Böen |
 | 🎐 Windspiel | 6 pentatonisch gestimmte Röhren (Modalsynthese) |
 | 🔔 Klangschalen | 3 Schalen mit schwebenden Obertönen, Anschlag alle 15–30 s |
@@ -13,8 +13,9 @@ Android-App zur Meditation: mischt beruhigende Klänge, die endlos laufen.
 | ✨ Sphären | warme Akkordflächen, die langsam ineinander fließen, Schimmertöne, großer Hall |
 | 🎵 eigene MP3s | jede Datei in `app/src/main/assets/tracks/` |
 
-Die sieben eingebauten Klänge werden **live berechnet** – es gibt also keine hörbare
-Schleife, nichts wiederholt sich exakt, und die APK bleibt klein. Eigene MP3s werden
+Die eingebauten Klänge werden **live berechnet** – es gibt also keine hörbare
+Schleife, nichts wiederholt sich exakt, und die APK bleibt klein. Ausnahme: Wasser ist
+eine echte Aufnahme (siehe Quellen). Eigene MP3s werden
 lückenlos geloopt.
 
 Funktionen: Klänge an/aus + eigene Lautstärke, sanftes Ein-/Ausblenden, Schlaf-Timer
@@ -55,3 +56,8 @@ Versionscode wird aus dem Tag berechnet (`v1.2.3` → 10203).
 
 `./gradlew :app:testDebugUnitTest` rendert außerdem jeden Klang als WAV nach
 `app/build/sound-previews/` – praktisch zum Probehören ohne Handy.
+
+## Quellen
+
+- Wasser: „mountain stream" von **piermic** auf freesound.org (Sound #376192),
+  zugeschnitten, gefiltert und lautstärkeangepasst.

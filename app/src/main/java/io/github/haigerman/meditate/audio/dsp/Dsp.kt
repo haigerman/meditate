@@ -308,26 +308,3 @@ class Reverb(
         outR = r
     }
 }
-
-/**
- * Zustandsvariablen-Filter (Chamberlin). Günstig und stabil, auch wenn die
- * Frequenz ständig verändert wird – ideal für gleitende Wasser-Resonanzen.
- */
-class Svf(private val sampleRate: Int) {
-    private var f = 0.1f
-    private var q = 0.2f
-    private var low = 0f
-    private var band = 0f
-
-    fun set(freq: Float, resonance: Float) {
-        f = (2.0 * sin(Math.PI * freq.coerceIn(20f, sampleRate / 7f) / sampleRate)).toFloat()
-        q = 1f / resonance
-    }
-
-    fun bandpass(x: Float): Float {
-        low += f * band
-        val high = x - low - q * band
-        band += f * high
-        return band
-    }
-}

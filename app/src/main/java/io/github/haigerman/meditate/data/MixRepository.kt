@@ -107,7 +107,7 @@ object SoundCatalog {
     fun load(context: Context): List<SoundItem> {
         val builtIn = listOf(
             SoundItem("campfire", "Lagerfeuer", "Knistern & Flammen", "🔥", SoundSource.Synth(SynthSound.CAMPFIRE)),
-            SoundItem("brook", "Wasser", "Plätschernder Gebirgsbach", "💧", SoundSource.Synth(SynthSound.BROOK)),
+            SoundItem("brook", "Wasser", "Gebirgsbach", "💧", SoundSource.Synth(SynthSound.BROOK)),
             SoundItem("wind", "Wind", "Sanfte Böen", "🌬️", SoundSource.Synth(SynthSound.WIND)),
             SoundItem("chimes", "Windspiel", "Pentatonische Röhren", "🎐", SoundSource.Synth(SynthSound.WIND_CHIMES)),
             SoundItem("bowls", "Klangschalen", "Tiefe, schwebende Töne", "🔔", SoundSource.Synth(SynthSound.SINGING_BOWLS)),
