@@ -254,7 +254,12 @@ object WarmWave {
 }
 
 /** Einfacher Stereo-Hall nach dem Freeverb-Prinzip (Kammfilter + Allpässe). */
-class Reverb(sampleRate: Int, private val roomSize: Float = 0.9f, private val damping: Float = 0.35f) {
+class Reverb(
+    sampleRate: Int,
+    private val roomSize: Float = 0.9f,
+    private val damping: Float = 0.35f,
+    private val inputGain: Float = 0.012f,
+) {
     private val scale = sampleRate / 44100.0
 
     private inner class Comb(len: Int) {
@@ -292,7 +297,7 @@ class Reverb(sampleRate: Int, private val roomSize: Float = 0.9f, private val da
         private set
 
     fun process(inL: Float, inR: Float) {
-        val x = (inL + inR) * 0.012f
+        val x = (inL + inR) * inputGain
         var l = 0f
         var r = 0f
         for (c in combL) l += c.process(x)
@@ -301,5 +306,28 @@ class Reverb(sampleRate: Int, private val roomSize: Float = 0.9f, private val da
         for (a in apR) r = a.process(r)
         outL = l
         outR = r
+    }
+}
+
+/**
+ * Zustandsvariablen-Filter (Chamberlin). Günstig und stabil, auch wenn die
+ * Frequenz ständig verändert wird – ideal für gleitende Wasser-Resonanzen.
+ */
+class Svf(private val sampleRate: Int) {
+    private var f = 0.1f
+    private var q = 0.2f
+    private var low = 0f
+    private var band = 0f
+
+    fun set(freq: Float, resonance: Float) {
+        f = (2.0 * sin(Math.PI * freq.coerceIn(20f, sampleRate / 7f) / sampleRate)).toFloat()
+        q = 1f / resonance
+    }
+
+    fun bandpass(x: Float): Float {
+        low += f * band
+        val high = x - low - q * band
+        band += f * high
+        return band
     }
 }

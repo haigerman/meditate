@@ -5,11 +5,11 @@ Android-App zur Meditation: mischt beruhigende Klänge, die endlos laufen.
 | Klang | Wie er entsteht |
 |---|---|
 | 🔥 Lagerfeuer | Fauchen + zufälliges Knistern/Knacken |
-| 💧 Wasser (kleiner Bach) | mehrere Rauschbänder, die unabhängig voneinander schwanken – gleichmäßiges Fließen |
+| 💧 Wasser (Gebirgsbach) | gleitende Resonanzen über Rauschen – ruhiges Plätschern und Gluckern |
 | 🌬️ Wind | Rauschen durch wandernde Filter, Böen |
 | 🎐 Windspiel | 6 pentatonisch gestimmte Röhren (Modalsynthese) |
 | 🔔 Klangschalen | 3 Schalen mit schwebenden Obertönen, Anschlag alle 15–30 s |
-| 🌲 Wald | Vogelgezwitscher: 6 Vögel verschiedener "Arten" aus verschiedenen Richtungen |
+| 🌲 Wald | Vogelgezwitscher: 6 Vögel verschiedener "Arten" aus verschiedenen Richtungen, mit Waldhall |
 | ✨ Sphären | warme Akkordflächen, die langsam ineinander fließen, Schimmertöne, großer Hall |
 | 🎵 eigene MP3s | jede Datei in `app/src/main/assets/tracks/` |
 

@@ -1,6 +1,7 @@
 package io.github.haigerman.meditate.audio.sounds
 
 import io.github.haigerman.meditate.audio.dsp.OnePole
+import io.github.haigerman.meditate.audio.dsp.Reverb
 import io.github.haigerman.meditate.audio.dsp.Rng
 import io.github.haigerman.meditate.audio.dsp.TWO_PI
 import kotlin.math.PI
@@ -8,7 +9,8 @@ import kotlin.math.sin
 
 /**
  * Waldgeräusche: mehrere Vögel unterschiedlicher "Art", die in zufälligen Abständen
- * aus verschiedenen Richtungen und Entfernungen singen.
+ * aus verschiedenen Richtungen und Entfernungen singen – mit etwas Raumhall,
+ * als stünde man zwischen den Bäumen.
  */
 class Forest(private val sr: Int, seed: Long = 67L) : SoundGenerator {
     private val rng = Rng(seed)
@@ -42,6 +44,9 @@ class Forest(private val sr: Int, seed: Long = 67L) : SoundGenerator {
     )
 
     private var clock = 0L
+
+    // dezenter Waldhall: hohe Töne werden im Nachhall schneller gedämpft
+    private val reverb = Reverb(sr, roomSize = 0.86f, damping = 0.5f, inputGain = 0.018f)
 
     private fun phrase(species: Species, p: Float): List<Note> = buildList {
         when (species) {
@@ -145,8 +150,9 @@ class Forest(private val sr: Int, seed: Long = 67L) : SoundGenerator {
                 r += s * b.pan
             }
             clock++
-            left[i] = l
-            right[i] = r
+            reverb.process(l, r)
+            left[i] = l + reverb.outL
+            right[i] = r + reverb.outR
         }
     }
 }
