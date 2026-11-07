@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- mittleres Blatt -->
+    <path android:fillColor="#FFE8C77A"
+        android:pathData="M54,30 C62,40 63,54 54,64 C45,54 46,40 54,30 Z" />
+    <!-- seitliche Blätter -->
+    <path android:fillColor="#FFD7A85F"
+        android:pathData="M52,64 C42,63 34,55 33,44 C42,46 50,53 52,64 Z" />
+    <path android:fillColor="#FFD7A85F"
+        android:pathData="M56,64 C66,63 74,55 75,44 C66,46 58,53 56,64 Z" />
+    <!-- Wellen -->
+    <path android:strokeColor="#FF8CC7C4" android:strokeWidth="2.6" android:strokeLineCap="round"
+        android:pathData="M36,71 C42,68 48,68 54,71 C60,74 66,74 72,71" />
+    <path android:strokeColor="#FF5F9EA0" android:strokeWidth="2.6" android:strokeLineCap="round"
+        android:pathData="M41,78 C46,75.5 50,75.5 54,78 C58,80.5 62,80.5 67,78" />
+</vector>
