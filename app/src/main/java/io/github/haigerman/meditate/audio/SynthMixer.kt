@@ -14,7 +14,7 @@ import kotlin.math.tanh
 /** [calibration] gleicht die Grundlautstärken einander an (gemessen im SoundRenderTest). */
 enum class SynthSound(val calibration: Float) {
     CAMPFIRE(0.38f),
-    BROOK(1.4f),
+    BROOK(0.95f),
     WIND(0.14f),
     WIND_CHIMES(0.9f),
     SINGING_BOWLS(2.0f),

@@ -1,31 +1,17 @@
 package io.github.haigerman.meditate.audio.sounds
 
-import io.github.haigerman.meditate.audio.dsp.Biquad
-import io.github.haigerman.meditate.audio.dsp.Drift
 import io.github.haigerman.meditate.audio.dsp.OnePole
-import io.github.haigerman.meditate.audio.dsp.PinkNoise
 import io.github.haigerman.meditate.audio.dsp.Rng
 import io.github.haigerman.meditate.audio.dsp.TWO_PI
 import kotlin.math.PI
 import kotlin.math.sin
 
 /**
- * Waldgeräusche: leises Blätterrauschen im Wind und mehrere Vögel unterschiedlicher
- * "Art", die in zufälligen Abständen aus verschiedenen Richtungen und Entfernungen singen.
+ * Waldgeräusche: mehrere Vögel unterschiedlicher "Art", die in zufälligen Abständen
+ * aus verschiedenen Richtungen und Entfernungen singen.
  */
 class Forest(private val sr: Int, seed: Long = 67L) : SoundGenerator {
     private val rng = Rng(seed)
-
-    // ---------- Blätter ----------
-    private val leafHpL = Biquad(sr).highpass(1800f)
-    private val leafHpR = Biquad(sr).highpass(1800f)
-    private val leafLpL = Biquad(sr).lowpass(7500f)
-    private val leafLpR = Biquad(sr).lowpass(7500f)
-    private val breeze = Drift(sr, rng, 4f, 11f)
-    private val flutterL = Drift(sr, rng, 0.03f, 0.12f)
-    private val flutterR = Drift(sr, rng, 0.03f, 0.12f)
-    private val air = PinkNoise(Rng(seed + 5))
-    private val airLp = Biquad(sr).lowpass(350f)
 
     // ---------- Vögel ----------
     private class Note(
@@ -150,16 +136,9 @@ class Forest(private val sr: Int, seed: Long = 67L) : SoundGenerator {
     }
 
     override fun render(left: FloatArray, right: FloatArray, frames: Int) {
-        val br = breeze.advance(frames)
-        val leafAmt = 0.03f + 0.11f * br * br
         for (i in 0 until frames) {
-            val fl = 0.3f + 0.7f * flutterL.next()
-            val fr = 0.3f + 0.7f * flutterR.next()
-            var l = leafLpL.process(leafHpL.process(rng.bipolar())) * leafAmt * fl
-            var r = leafLpR.process(leafHpR.process(rng.bipolar())) * leafAmt * fr
-            val a = airLp.process(air.next()) * 0.05f
-            l += a
-            r += a
+            var l = 0f
+            var r = 0f
             for (b in birds) {
                 val s = renderBird(b)
                 l += s * (1f - b.pan)
