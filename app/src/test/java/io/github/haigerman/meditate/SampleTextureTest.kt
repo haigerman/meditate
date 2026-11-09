@@ -44,10 +44,10 @@ class SampleTextureTest {
 
     @Test
     fun forestDoesNotRepeatSoon() {
-        val gap = minRepeatGapSeconds(152) {
-            SampleTexture(sr, it, "forest", minSegment = 20f, maxSegment = 45f, crossfade = 4f, seed = 131L)
+        val gap = minRepeatGapSeconds(43) {
+            SampleTexture(sr, it, "forest", minSegment = 8f, maxSegment = 16f, crossfade = 3f, seed = 131L)
         }
-        assertTrue(gap > 60)
+        assertTrue(gap > 18)
     }
 
     @Test

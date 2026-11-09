@@ -61,6 +61,5 @@ Versionscode wird aus dem Tag berechnet (`v1.2.3` → 10203).
 
 - Wasser: „mountain stream" von **piermic** auf freesound.org (Sound #376192),
   Lizenz **CC0** (gemeinfrei); gefiltert und lautstärkeangepasst.
-- Wald: Vogelgesang-Aufnahme aus der App *First Light* (`birdsong.mp3`), Lizenz **CC0**
-  (gemeinfrei); Anfang und ausblendendes Ende abgeschnitten, Hochpass 120 Hz,
-  lautstärkeangepasst.
+- Wald: „bird song" von **f1tz** auf freesound.org (Sound #795995), Lizenz **CC0**
+  (gemeinfrei); je 2 s am Anfang und Ende abgeschnitten, Hochpass 120 Hz, angehoben.

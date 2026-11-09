@@ -17,7 +17,7 @@ enum class SynthSound(val calibration: Float) {
     WIND(0.14f),
     WIND_CHIMES(0.9f),
     SINGING_BOWLS(2.0f),
-    FOREST(1.0f),
+    FOREST(1.4f),
     SPHERES(0.4f);
 
     fun create(sampleRate: Int, samples: SampleProvider): SoundGenerator = when (this) {
@@ -26,8 +26,7 @@ enum class SynthSound(val calibration: Float) {
         WIND -> Wind(sampleRate)
         WIND_CHIMES -> WindChimes(sampleRate)
         SINGING_BOWLS -> SingingBowls(sampleRate)
-        // lange Abschnitte, damit möglichst selten mitten in einen Vogelruf gesprungen wird
-        FOREST -> SampleTexture(sampleRate, samples, "forest", minSegment = 20f, maxSegment = 45f, crossfade = 4f, seed = 131L)
+        FOREST -> SampleTexture(sampleRate, samples, "forest", minSegment = 8f, maxSegment = 16f, crossfade = 3f, seed = 131L)
         SPHERES -> Spheres(sampleRate)
     }
 }
