@@ -89,8 +89,8 @@ class SoundRenderTest {
     fun renderEachSound() {
         val dir = File("build/sound-previews")
         for (s in SynthSound.entries) {
-            if (s == SynthSound.BROOK && !hasFfmpeg) {
-                println("BROOK übersprungen (ffmpeg nicht installiert)")
+            if ((s == SynthSound.BROOK || s == SynthSound.FOREST) && !hasFfmpeg) {
+                println("${s.name} übersprungen (ffmpeg nicht installiert)")
                 continue
             }
             val buf = render(mapOf(s to 1f))

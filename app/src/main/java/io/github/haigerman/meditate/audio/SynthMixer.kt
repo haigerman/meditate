@@ -1,7 +1,6 @@
 package io.github.haigerman.meditate.audio
 
 import io.github.haigerman.meditate.audio.sounds.Campfire
-import io.github.haigerman.meditate.audio.sounds.Forest
 import io.github.haigerman.meditate.audio.sounds.SampleTexture
 import io.github.haigerman.meditate.audio.sounds.SingingBowls
 import io.github.haigerman.meditate.audio.sounds.SoundGenerator
@@ -10,7 +9,7 @@ import io.github.haigerman.meditate.audio.sounds.Wind
 import io.github.haigerman.meditate.audio.sounds.WindChimes
 import kotlin.math.tanh
 
-/** Die eingebauten Klänge – live synthetisiert, bzw. (Wasser) eine endlos variierte Aufnahme. */
+/** Die eingebauten Klänge – live synthetisiert, bzw. (Wasser, Wald) endlos variierte Aufnahmen. */
 /** [calibration] gleicht die Grundlautstärken einander an (gemessen im SoundRenderTest). */
 enum class SynthSound(val calibration: Float) {
     CAMPFIRE(0.38f),
@@ -18,16 +17,17 @@ enum class SynthSound(val calibration: Float) {
     WIND(0.14f),
     WIND_CHIMES(0.9f),
     SINGING_BOWLS(2.0f),
-    FOREST(1.3f),
+    FOREST(1.0f),
     SPHERES(0.4f);
 
     fun create(sampleRate: Int, samples: SampleProvider): SoundGenerator = when (this) {
         CAMPFIRE -> Campfire(sampleRate)
-        BROOK -> SampleTexture(sampleRate, samples, "brook")
+        BROOK -> SampleTexture(sampleRate, samples, "brook", minSegment = 8f, maxSegment = 16f, crossfade = 3f)
         WIND -> Wind(sampleRate)
         WIND_CHIMES -> WindChimes(sampleRate)
         SINGING_BOWLS -> SingingBowls(sampleRate)
-        FOREST -> Forest(sampleRate)
+        // lange Abschnitte, damit möglichst selten mitten in einen Vogelruf gesprungen wird
+        FOREST -> SampleTexture(sampleRate, samples, "forest", minSegment = 20f, maxSegment = 45f, crossfade = 4f, seed = 131L)
         SPHERES -> Spheres(sampleRate)
     }
 }

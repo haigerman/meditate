@@ -109,7 +109,9 @@ class PlaybackService : LifecycleService() {
         MixRepository.init(this)
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         createChannel()
-        samples.get("brook") // Aufnahme schon mal im Hintergrund laden
+        // Aufnahmen schon mal im Hintergrund laden
+        samples.get("brook")
+        samples.get("forest")
         ContextCompat.registerReceiver(
             this, noisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY),
             ContextCompat.RECEIVER_NOT_EXPORTED,

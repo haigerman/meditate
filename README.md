@@ -9,13 +9,13 @@ Android-App zur Meditation: mischt beruhigende Klänge, die endlos laufen.
 | 🌬️ Wind | Rauschen durch wandernde Filter, Böen |
 | 🎐 Windspiel | 6 pentatonisch gestimmte Röhren (Modalsynthese) |
 | 🔔 Klangschalen | 3 Schalen mit schwebenden Obertönen, Anschlag alle 15–30 s |
-| 🌲 Wald | Vogelgezwitscher: 6 Vögel verschiedener "Arten" aus verschiedenen Richtungen, mit Waldhall |
+| 🌲 Wald | echte Vogelgesang-Aufnahme, endlos variiert wie beim Wasser |
 | ✨ Sphären | warme Akkordflächen, die langsam ineinander fließen, Schimmertöne, großer Hall |
 | 🎵 eigene MP3s | jede Datei in `app/src/main/assets/tracks/` |
 
 Die eingebauten Klänge werden **live berechnet** – es gibt also keine hörbare
-Schleife, nichts wiederholt sich exakt, und die APK bleibt klein. Ausnahme: Wasser ist
-eine echte Aufnahme (siehe Quellen). Eigene MP3s werden
+Schleife, nichts wiederholt sich exakt, und die APK bleibt klein. Ausnahme: Wasser und Wald
+sind echte Aufnahmen (siehe Quellen), die durch zufälliges Überblenden endlos laufen. Eigene MP3s werden
 lückenlos geloopt.
 
 Funktionen: Klänge an/aus + eigene Lautstärke, sanftes Ein-/Ausblenden, Schlaf-Timer
@@ -61,3 +61,5 @@ Versionscode wird aus dem Tag berechnet (`v1.2.3` → 10203).
 
 - Wasser: „mountain stream" von **piermic** auf freesound.org (Sound #376192),
   Lizenz **CC0** (gemeinfrei); gefiltert und lautstärkeangepasst.
+- Wald: Vogelgesang-Aufnahme aus der App *First Light* (`birdsong.mp3`); Anfang und
+  ausblendendes Ende abgeschnitten, Hochpass 120 Hz, lautstärkeangepasst.
